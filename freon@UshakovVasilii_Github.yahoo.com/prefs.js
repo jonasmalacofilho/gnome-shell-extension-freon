@@ -57,16 +57,23 @@ var FreonPrefsWidget = new GObject.Class({
         this._addSwitch({key : 'show-fan-rpm', y : i, x : 0,
             label : _('Show Fan Speed')});
 
-        this._addSwitch({key : 'show-voltage', y : i++, x : 2,
-            label : _('Show Power Supply Voltage')});
-
-        this._addSwitch({key : 'group-temperature', y : i, x : 0,
+        this._addSwitch({key : 'group-temperature', y : i++, x : 2,
             label : _('Group Temperature Items'),
             help : _("Works if you have more than three temperature sensors")});
+
+        this._addSwitch({key : 'show-voltage', y : i, x : 0,
+            label : _('Show Power Supply Voltage')});
 
         this._addSwitch({key : 'group-voltage', y : i++, x : 2,
             label : _('Group Voltage Items'),
             help : _("Works if you have more than three voltage sensors")});
+
+        this._addSwitch({key : 'show-current', y : i, x : 0,
+            label : _('Show Current Sensors')});
+
+        this._addSwitch({key : 'group-current', y : i++, x : 2,
+            label : _('Group Current Items'),
+            help : _("Works if you have more than three current sensors")});
 
         this._addComboBox({
             items : {none : 'None', hddtemp : 'Hddtemp', udisks2 : 'UDisks2', smartctl : 'smartctl'},

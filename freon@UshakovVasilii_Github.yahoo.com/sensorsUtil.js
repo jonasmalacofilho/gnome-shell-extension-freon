@@ -31,6 +31,10 @@ var SensorsUtil = new Lang.Class({
         return this._parseGenericSensorsOutput(/^in\d+_input/, 'volt');
     },
 
+    get curr() {
+        return this._parseGenericSensorsOutput(/^curr\d+_input/, 'curr');
+    },
+
     _parseGenericSensorsOutput: function(sensorFilter, sensorType) {
         return this._parseSensorsOutput(sensorFilter, sensorType, false);
     },

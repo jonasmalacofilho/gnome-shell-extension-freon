@@ -45,6 +45,12 @@
       <description>Display voltage of various components</description>
     </key>
 
+    <key type="b" name="show-current">
+      <default>true</default>
+      <summary>Display current</summary>
+      <description>Display current of various components</description>
+    </key>
+
     <key type="s" name="drive-utility">
       <default>'udisks2'</default>
       <summary>Utility for detect HDD/SSD temperature</summary>
@@ -73,6 +79,12 @@
       <default>true</default>
       <summary>Group voltage menu items</summary>
       <description>Group more than three voltage menu items</description>
+    </key>
+
+    <key type="b" name="group-current">
+      <default>true</default>
+      <summary>Group current menu items</summary>
+      <description>Group more than three current menu items</description>
     </key>
 
     <key type="b" name="debug">

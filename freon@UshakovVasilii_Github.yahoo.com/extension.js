@@ -79,6 +79,7 @@ var FreonMenuButton = new Lang.Class({
             'gpu-temperature' : Gio.icon_new_for_string(Me.path + '/icons/freon-gpu-temperature-symbolic.svg'),
             'drive-temperature' : Gio.icon_new_for_string('drive-harddisk-symbolic'),
             'voltage' : Gio.icon_new_for_string(Me.path + '/icons/freon-voltage-symbolic.svg'),
+            'current' : Gio.icon_new_for_string(Me.path + '/icons/freon-voltage-symbolic.svg'),
             'fan' : Gio.icon_new_for_string(Me.path + '/icons/freon-fan-symbolic.svg')
         }
 
@@ -105,11 +106,13 @@ var FreonMenuButton = new Lang.Class({
         this._addSettingChangedSignal('show-decimal-value', Lang.bind(this, this._querySensors));
         this._addSettingChangedSignal('show-fan-rpm', Lang.bind(this, this._querySensors));
         this._addSettingChangedSignal('show-voltage', Lang.bind(this, this._querySensors));
+        this._addSettingChangedSignal('show-current', Lang.bind(this, this._querySensors));
         this._addSettingChangedSignal('drive-utility', Lang.bind(this, this._driveUtilityChanged));
         this._addSettingChangedSignal('gpu-utility', Lang.bind(this, this._gpuUtilityChanged));
         this._addSettingChangedSignal('position-in-panel', Lang.bind(this, this._positionInPanelChanged));
         this._addSettingChangedSignal('group-temperature', Lang.bind(this, this._querySensors))
         this._addSettingChangedSignal('group-voltage', Lang.bind(this, this._rerender))
+        this._addSettingChangedSignal('group-current', Lang.bind(this, this._rerender))
 
         this.connect('destroy', Lang.bind(this, this._onDestroy));
 
@@ -328,6 +331,10 @@ var FreonMenuButton = new Lang.Class({
         if (this._settings.get_boolean('show-voltage'))
             voltageInfo = this._utils.sensors.volt;
 
+        let currentInfo = [];
+        if (this._settings.get_boolean('show-current'))
+            currentInfo = this._utils.sensors.curr;
+
         let driveTempInfo = [];
         if(this._utils.disks && this._utils.disks.available) {
             driveTempInfo = this._utils.disks.temp;
@@ -337,6 +344,7 @@ var FreonMenuButton = new Lang.Class({
         driveTempInfo.sort(function(a,b) { return a.label.localeCompare(b.label) });
         fanInfo.sort(function(a,b) { return a.label.localeCompare(b.label) });
         voltageInfo.sort(function(a,b) { return a.label.localeCompare(b.label) });
+        currentInfo.sort(function(a,b) { return a.label.localeCompare(b.label) });
 
         let tempInfo = gpuTempInfo.concat(sensorsTempInfo).concat(driveTempInfo);
 
@@ -382,7 +390,7 @@ var FreonMenuButton = new Lang.Class({
                               label: _("Maximum"),
                               value: this._formatTemp(max)});
 
-                if(fanInfo.length > 0 || voltageInfo.length > 0)
+                if(fanInfo.length > 0 || voltageInfo.length > 0 || currentInfo.length > 0)
                     sensors.push({type : 'separator'});
             }
 
@@ -403,7 +411,7 @@ var FreonMenuButton = new Lang.Class({
                     label:fan.label,
                     value:_("%drpm").format(fan.rpm)});
             }
-            if (fanInfo.length > 0 && voltageInfo.length > 0){
+            if (fanInfo.length > 0 && (voltageInfo.length > 0 || currentInfo.length > 0)){
                 sensors.push({type : 'separator'});
             }
             for (let voltage of voltageInfo){
@@ -412,6 +420,15 @@ var FreonMenuButton = new Lang.Class({
                     label:voltage.label,
                     value:_("%s%.2fV").format(((voltage.volt >= 0) ? '+' : ''),
                     voltage.volt)});
+            }
+            if (voltageInfo.length > 0 && currentInfo.length > 0){
+                sensors.push({type : 'separator'});
+            }
+            for (let current of currentInfo){
+                sensors.push({
+                    type : 'current',
+                    label:current.label,
+                    value:_("%.2fA").format(current.curr)});
             }
 
             this._fixNames(sensors);
@@ -494,6 +511,7 @@ var FreonMenuButton = new Lang.Class({
         this._sensorMenuItems = {};
         let needGroupTemperature = this._settings.get_boolean('group-temperature');
         let needGroupVoltage = this._settings.get_boolean('group-voltage');
+        let needGroupCurrent = this._settings.get_boolean('group-current');
 
         if(needGroupVoltage){
             let i = 0;
@@ -504,8 +522,18 @@ var FreonMenuButton = new Lang.Class({
                 needGroupVoltage = false;
         }
 
+        if(needGroupCurrent){
+            let i = 0;
+            for (let s of sensors)
+                if(s.type == 'current')
+                    i++;
+            if(i < 2)
+                needGroupCurrent = false;
+        }
+
         let temperatureGroup = null;
         let voltageGroup = null;
+        let currentGroup = null;
 
         for (let s of sensors){
             if(s.type == 'separator'){
@@ -592,6 +620,13 @@ var FreonMenuButton = new Lang.Class({
                         this.menu.addMenuItem(voltageGroup);
                     }
                     voltageGroup.menu.addMenuItem(item);
+                } else if(needGroupCurrent && s.type == 'current') {
+                    if(!currentGroup) {
+                        currentGroup = new PopupMenu.PopupSubMenuMenuItem(_('Current'), true);
+                        currentGroup.icon.gicon = this._sensorIcons['current'];
+                        this.menu.addMenuItem(currentGroup);
+                    }
+                    currentGroup.menu.addMenuItem(item);
                 } else {
                     this.menu.addMenuItem(item);
                 }
