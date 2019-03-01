@@ -1,0 +1,162 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-02-28 17:07-0300\n"
+"PO-Revision-Date: 2019-03-01 03:37-0300\n"
+"Last-Translator: Jonas Malaco <jonas@protocubo.io>\n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ../extension.js:386
+msgid "Average"
+msgstr "Average temperature"
+
+#: ../extension.js:390
+msgid "Maximum"
+msgstr "Maximum temperature"
+
+#: ../extension.js:412
+#, javascript-format
+msgid "%drpm"
+msgstr "%d rpm"
+
+#: ../extension.js:421
+#, javascript-format
+msgid "%s%.2fV"
+msgstr "%s%.3f V"
+
+#: ../extension.js:431
+#, javascript-format
+msgid "%.2fA"
+msgstr "%.3f A"
+
+#: ../extension.js:476
+msgid "Please run sensors-detect as root."
+msgstr ""
+
+#: ../extension.js:477
+msgid ""
+"Please install lm_sensors.\n"
+"If this doesn't help, click here to report with your sensors output."
+msgstr ""
+
+#: ../extension.js:492
+msgid "Go to the Freon wiki"
+msgstr ""
+
+#: ../extension.js:499
+msgid "Sensor Settings"
+msgstr "Sensor settings"
+
+#: ../extension.js:601
+msgid "Temperature Sensors"
+msgstr "Temperature sensors"
+
+#: ../extension.js:615
+msgid "Voltage"
+msgstr "Voltage sensors"
+
+#: ../extension.js:622
+msgid "Current"
+msgstr "Current sensors"
+
+#: ../prefs.js:33
+msgid "Poll Sensors Every (sec)"
+msgstr "Polling interval (sec)"
+
+#: ../prefs.js:39
+msgid "Show Decimal Value"
+msgstr "Show decimal value"
+
+#: ../prefs.js:40
+msgid "Show one digit after decimal"
+msgstr ""
+
+#: ../prefs.js:45
+msgid "Temperature Unit"
+msgstr "Temperature unit"
+
+#: ../prefs.js:49
+msgid "Left"
+msgstr ""
+
+#: ../prefs.js:49
+msgid "Center"
+msgstr ""
+
+#: ../prefs.js:49
+msgid "Right"
+msgstr ""
+
+#: ../prefs.js:51
+msgid "Position in Panel"
+msgstr "Position in panel"
+
+#: ../prefs.js:55
+msgid "Show Icon on Panel"
+msgstr "Show icons on panel"
+
+#: ../prefs.js:58
+msgid "Show Fan Speed"
+msgstr "Show fan speed"
+
+#: ../prefs.js:61
+msgid "Group Temperature Items"
+msgstr "Group temperature items"
+
+#: ../prefs.js:62
+msgid "Works if you have more than three temperature sensors"
+msgstr "Works if you have two or more temperature sensors"
+
+#: ../prefs.js:65
+msgid "Show Power Supply Voltage"
+msgstr "Show voltage readings"
+
+#: ../prefs.js:68
+msgid "Group Voltage Items"
+msgstr "Group voltage sensors"
+
+#: ../prefs.js:69
+msgid "Works if you have more than three voltage sensors"
+msgstr "Works if you have two or more voltage sensors"
+
+#: ../prefs.js:72
+msgid "Show Current Sensors"
+msgstr "Show current sensors"
+
+#: ../prefs.js:75
+msgid "Group Current Items"
+msgstr "Group current items"
+
+#: ../prefs.js:76
+msgid "Works if you have more than three current sensors"
+msgstr "Works if you have two or more current sensors"
+
+#: ../prefs.js:81
+msgid "HDD/SSD Temperature Utility"
+msgstr ""
+
+#: ../prefs.js:86
+msgid "None"
+msgstr ""
+
+#: ../prefs.js:87
+msgid "NVIDIA"
+msgstr ""
+
+#: ../prefs.js:88
+msgid "Catalyst"
+msgstr ""
+
+#: ../prefs.js:89
+msgid "Bumblebee + NVIDIA"
+msgstr ""
+
+#: ../prefs.js:91
+msgid "Video Card Temperature Utility"
+msgstr "Video card temperature utility"
