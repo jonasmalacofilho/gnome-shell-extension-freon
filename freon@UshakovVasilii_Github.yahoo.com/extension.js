@@ -16,6 +16,7 @@ const AticonfigUtil = Me.imports.aticonfigUtil;
 const NvidiaUtil = Me.imports.nvidiaUtil;
 const HddtempUtil = Me.imports.hddtempUtil;
 const SensorsUtil = Me.imports.sensorsUtil;
+const LiquidctlUtil = Me.imports.liquidctlUtil;
 const smartctlUtil = Me.imports.smartctlUtil;
 const nvmecliUtil = Me.imports.nvmecliUtil;
 const BumblebeeNvidiaUtil = Me.imports.bumblebeeNvidiaUtil;
@@ -64,7 +65,8 @@ const FreonMenuButton = GObject.registerClass(class Freon_FreonMenuButton extend
         this._sensorMenuItems = {};
 
         this._utils = {
-            sensors: new SensorsUtil.SensorsUtil()
+            sensors: new SensorsUtil.SensorsUtil(),
+            liquidctl: new LiquidctlUtil.LiquidctlUtil()
         };
         this._initDriveUtility();
         this._initGpuUtility();
@@ -316,25 +318,28 @@ const FreonMenuButton = GObject.registerClass(class Freon_FreonMenuButton extend
     }
 
     _updateDisplay(){
-        let gpuTempInfo = this._utils.sensors.gpu;
+        let sensorsTempInfo = [];
+        let gpuTempInfo = [];
+        let fanInfo = [];
+        let voltageInfo = [];
+        let driveTempInfo = [];
+
+        for (let util of Object.values(this._utils)) {
+            if (util == this._utils.gpu || util == this._utils.disks || !util.available)
+                continue;
+            sensorsTempInfo = sensorsTempInfo.concat(util.temp);
+            gpuTempInfo = gpuTempInfo.concat(util.gpu);
+            if (this._settings.get_boolean('show-fan-rpm'))
+                fanInfo = fanInfo.concat(util.rpm);
+            if (this._settings.get_boolean('show-voltage'))
+                voltageInfo = voltageInfo.concat(util.volt);
+        }
 
         if (this._utils.gpu && this._utils.gpu.available)
             gpuTempInfo = gpuTempInfo.concat(this._utils.gpu.temp);
 
-        let sensorsTempInfo = this._utils.sensors.temp;
-
-        let fanInfo = [];
-        if (this._settings.get_boolean('show-fan-rpm'))
-            fanInfo = this._utils.sensors.rpm;
-
-        let voltageInfo = [];
-        if (this._settings.get_boolean('show-voltage'))
-            voltageInfo = this._utils.sensors.volt;
-
-        let driveTempInfo = [];
-        if(this._utils.disks && this._utils.disks.available) {
+        if(this._utils.disks && this._utils.disks.available)
             driveTempInfo = this._utils.disks.temp;
-        }
 
         sensorsTempInfo.sort(function(a,b) { return a.label.localeCompare(b.label) });
         driveTempInfo.sort(function(a,b) { return a.label.localeCompare(b.label) });
